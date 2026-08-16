@@ -12,6 +12,7 @@ public class XOFrame extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(XOFrame.class.getName());
     private Board board;
+    
     public XOFrame() {
         initComponents();
         Player o = new Player('O');
@@ -19,7 +20,6 @@ public class XOFrame extends javax.swing.JFrame {
         this.board = new Board(o, x); 
         showBoard();
         showturn();
-        
     }
 
     /**
@@ -51,7 +51,7 @@ public class XOFrame extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         PN = new javax.swing.JPanel();
         lblStatus = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnNewGame = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         btn1 = new javax.swing.JButton();
@@ -241,7 +241,8 @@ public class XOFrame extends javax.swing.JFrame {
                 .addContainerGap(43, Short.MAX_VALUE))
         );
 
-        jButton1.setText("New Game");
+        btnNewGame.setText("New Game");
+        btnNewGame.addActionListener(this::btnNewGameActionPerformed);
 
         jButton2.setText("Close");
 
@@ -254,7 +255,7 @@ public class XOFrame extends javax.swing.JFrame {
                 .addComponent(PN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(74, 74, 74)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnNewGame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -264,7 +265,7 @@ public class XOFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnNewGame, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
@@ -389,27 +390,10 @@ public class XOFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     private void showWin(){
         lblStatus.setText("Player " + board.getCurrentPlayer().getName() + " Win!!!");
-        btn1.setEnabled(false);
-        btn2.setEnabled(false);
-        btn3.setEnabled(false);
-        btn4.setEnabled(false);
-        btn5.setEnabled(false);
-        btn6.setEnabled(false);
-        btn9.setEnabled(false);
-        btn8.setEnabled(false);
-        btn7.setEnabled(false);
+        setEnableBoard(false);
     }
     private void showDraw(){
-        lblStatus.setText("Draw!!!");
-        btn1.setEnabled(false);
-        btn2.setEnabled(false);
-        btn3.setEnabled(false);
-        btn4.setEnabled(false);
-        btn5.setEnabled(false);
-        btn6.setEnabled(false);
-        btn9.setEnabled(false);
-        btn8.setEnabled(false);
-        btn7.setEnabled(false);
+        setEnableBoard(false);
     }
     public void play(int row,int col) {
 //        try {
@@ -433,6 +417,14 @@ public class XOFrame extends javax.swing.JFrame {
     board.switchPlayer();
     showturn();
     }
+    public void newGame() {
+    Player o = new Player('O');
+    Player x = new Player('X');
+    this.board = new Board(o, x);
+    setEnableBoard(true);
+    showBoard();
+    showturn();
+}
     
     
     private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
@@ -470,6 +462,10 @@ public class XOFrame extends javax.swing.JFrame {
     private void btn9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn9ActionPerformed
         play(3,3);
     }//GEN-LAST:event_btn9ActionPerformed
+
+    private void btnNewGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewGameActionPerformed
+        newGame();
+    }//GEN-LAST:event_btnNewGameActionPerformed
     private void showturn(){
         if(board.getCurrentPlayer() != null){
             lblStatus.setText("Turn "+board.getCurrentPlayer().getName());
@@ -523,7 +519,7 @@ public class XOFrame extends javax.swing.JFrame {
     private javax.swing.JButton btn7;
     private javax.swing.JButton btn8;
     private javax.swing.JButton btn9;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnNewGame;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -546,4 +542,16 @@ public class XOFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel lblStatus;
     // End of variables declaration//GEN-END:variables
+
+    private void setEnableBoard(boolean b) {
+        btn1.setEnabled(b);
+        btn2.setEnabled(b);
+        btn3.setEnabled(b);
+        btn4.setEnabled(b);
+        btn5.setEnabled(b);
+        btn6.setEnabled(b);
+        btn7.setEnabled(b);
+        btn8.setEnabled(b);
+        btn9.setEnabled(b);
+    }
 }
