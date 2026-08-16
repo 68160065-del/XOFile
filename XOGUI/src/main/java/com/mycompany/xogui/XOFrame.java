@@ -400,6 +400,10 @@ public class XOFrame extends javax.swing.JFrame {
             showWin();
             return;
         }
+        if (board.checkDraw()){
+            showDraw();
+            return;
+        }
         board.switchPlayer();
         showturn();
     }
