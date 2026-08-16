@@ -9,6 +9,7 @@ package com.mycompany.xogui;
  * @author admin
  */
 public class Board {
+
     private char[][] table = {{'-', '-', '-'}, {'-', '-', '-'}, {'-', '-', '-'},};
     private Player currentPlayer;
     private Player O, X;
@@ -47,6 +48,21 @@ public class Board {
         }
     }
 
+    public void saveWin() {
+        if (this.getCurrentPlayer() != O) {
+            X.lose();
+            O.win();
+        } else {
+            O.lose();
+            X.win();
+        }
+    }
+
+    public void savedraw() {
+        X.draw();
+        O.draw();
+    }
+
     public boolean checkWin() {
 
         for (int i = 0; i < 3; i++) {
@@ -78,5 +94,13 @@ public class Board {
             }
         }
         return true;
+    }
+
+    public Player getpX() {
+        return this.X;
+    }
+
+    public Player getpO() {
+        return this.O;
     }
 }
