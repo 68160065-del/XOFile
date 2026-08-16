@@ -60,9 +60,9 @@ public class XOFrame extends javax.swing.JFrame {
         btn4 = new javax.swing.JButton();
         btn5 = new javax.swing.JButton();
         btn6 = new javax.swing.JButton();
-        btn7 = new javax.swing.JButton();
-        btn8 = new javax.swing.JButton();
         btn9 = new javax.swing.JButton();
+        btn8 = new javax.swing.JButton();
+        btn7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -299,17 +299,17 @@ public class XOFrame extends javax.swing.JFrame {
         btn6.setText("-");
         btn6.addActionListener(this::btn6ActionPerformed);
 
-        btn7.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        btn7.setText("-");
-        btn7.addActionListener(this::btn7ActionPerformed);
+        btn9.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        btn9.setText("-");
+        btn9.addActionListener(this::btn9ActionPerformed);
 
         btn8.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         btn8.setText("-");
         btn8.addActionListener(this::btn8ActionPerformed);
 
-        btn9.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        btn9.setText("-");
-        btn9.addActionListener(this::btn9ActionPerformed);
+        btn7.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        btn7.setText("-");
+        btn7.addActionListener(this::btn7ActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -319,11 +319,11 @@ public class XOFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btn9, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn7, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn8, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn7, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btn9, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(btn1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -354,9 +354,9 @@ public class XOFrame extends javax.swing.JFrame {
                     .addComponent(btn6, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn7, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn9, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn8, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn9, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn7, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -388,25 +388,52 @@ public class XOFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void showWin(){
-        lblStatus.setText("Player "+board.getCurrentPlayer().getName()+" Win!!!");
+        lblStatus.setText("Player " + board.getCurrentPlayer().getName() + " Win!!!");
+        btn1.setEnabled(false);
+        btn2.setEnabled(false);
+        btn3.setEnabled(false);
+        btn4.setEnabled(false);
+        btn5.setEnabled(false);
+        btn6.setEnabled(false);
+        btn9.setEnabled(false);
+        btn8.setEnabled(false);
+        btn7.setEnabled(false);
     }
     private void showDraw(){
         lblStatus.setText("Draw!!!");
+        btn1.setEnabled(false);
+        btn2.setEnabled(false);
+        btn3.setEnabled(false);
+        btn4.setEnabled(false);
+        btn5.setEnabled(false);
+        btn6.setEnabled(false);
+        btn9.setEnabled(false);
+        btn8.setEnabled(false);
+        btn7.setEnabled(false);
     }
     public void play(int row,int col) {
-        board.setRowCol(row,col);
+//        try {
+//        board.setRowCol(row, col); 
+//        } catch (IllegalStateException ex) {
+//        return;
+//        }
+        if (!board.setRowCol(row, col)) {
+            return; 
+        }
         showBoard();
-        if (board.checkWin()){
+        if (board.checkWin()) {
             showWin();
             return;
         }
-        if (board.checkDraw()){
+        if (board.checkDraw()) {
             showDraw();
             return;
         }
-        board.switchPlayer();
-        showturn();
+
+    board.switchPlayer();
+    showturn();
     }
+    
     
     private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
         play(1,1);
@@ -432,17 +459,17 @@ public class XOFrame extends javax.swing.JFrame {
         play(2,3);
     }//GEN-LAST:event_btn6ActionPerformed
 
-    private void btn9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn9ActionPerformed
-        play(3,3);
-    }//GEN-LAST:event_btn9ActionPerformed
+    private void btn7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7ActionPerformed
+        play(3,1);
+    }//GEN-LAST:event_btn7ActionPerformed
 
     private void btn8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn8ActionPerformed
         play(3,2);
     }//GEN-LAST:event_btn8ActionPerformed
 
-    private void btn7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7ActionPerformed
-        play(3,1);
-    }//GEN-LAST:event_btn7ActionPerformed
+    private void btn9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn9ActionPerformed
+        play(3,3);
+    }//GEN-LAST:event_btn9ActionPerformed
     private void showturn(){
         if(board.getCurrentPlayer() != null){
             lblStatus.setText("Turn "+board.getCurrentPlayer().getName());
@@ -456,10 +483,9 @@ public class XOFrame extends javax.swing.JFrame {
         btn4.setText(""+table[1][0]);
         btn5.setText(""+table[1][1]);
         btn6.setText(""+table[1][2]);
-        btn7.setText(""+table[2][0]);
+        btn7.setText(""+table[2][0]); 
         btn8.setText(""+table[2][1]);
         btn9.setText(""+table[2][2]);
-        
     }
     /**
      * @param args the command line arguments
