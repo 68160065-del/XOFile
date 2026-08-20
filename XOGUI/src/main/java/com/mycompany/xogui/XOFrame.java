@@ -6,31 +6,35 @@ package com.mycompany.xogui;
 
 import com.mycompany.friend.Friend;
 import com.mycompany.friend.TestReadFriend;
+import com.mycompany.friend.TestWriteFriend;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 /**
  *
  * @author admin
  */
 public class XOFrame extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(XOFrame.class.getName());
     private Board board;
     private Player playerO = new Player('O');
     private Player playerX = new Player('X');
-    
+
     public XOFrame() {
         initComponents();
-        this.board = new Board(playerO, playerX); 
-        showBoard();
-        showturn();
         load();
+        this.board = new Board(playerO, playerX);
+        showStat();
+        showBoard();
+        showStat();
+        showturn();
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -399,40 +403,45 @@ public class XOFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    private void showWin(){
+    private void showWin() {
         lblStatus.setText("Player " + board.getCurrentPlayer().getName() + " Win!!!");
         setEnableBoard(false);
     }
-    private void showDraw(){
+
+    private void showDraw() {
         setEnableBoard(false);
     }
-    public void play(int row,int col) {
+
+    public void play(int row, int col) {
 //        try {
 //        board.setRowCol(row, col); 
 //        } catch (IllegalStateException ex) {
 //        return;
 //        }
         if (!board.setRowCol(row, col)) {
-            return; 
+            return;
         }
         showBoard();
         if (board.checkWin()) {
             board.saveWin();
+            save();
             showWin();
             showStat();
             return;
         }
         if (board.checkDraw()) {
             board.savedraw();
+            save();
             showDraw();
             showStat();
             return;
         }
 
-    board.switchPlayer();
-    showturn();
+        board.switchPlayer();
+        showturn();
     }
-    private void showStat(){
+
+    private void showStat() {
         lblXWin.setText("" + board.getpX().getWin());
         lblXLose.setText("" + board.getpX().getLose());
         lblXDraw.setText("" + board.getpX().getDraw());
@@ -441,48 +450,49 @@ public class XOFrame extends javax.swing.JFrame {
         lblOLose.setText("" + board.getpO().getLose());
         lblODraw.setText("" + board.getpO().getDraw());
     }
+
     public void newGame() {
-    this.board = new Board(playerO, playerX);
-    setEnableBoard(true);
-    showBoard();
-    showturn();
-}
-    
-    
+        this.board = new Board(playerO, playerX);
+        setEnableBoard(true);
+        showBoard();
+        showturn();
+    }
+
+
     private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
-        play(1,1);
+        play(1, 1);
     }//GEN-LAST:event_btn1ActionPerformed
 
     private void btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2ActionPerformed
-        play(1,2);
+        play(1, 2);
     }//GEN-LAST:event_btn2ActionPerformed
 
     private void btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3ActionPerformed
-        play(1,3);
+        play(1, 3);
     }//GEN-LAST:event_btn3ActionPerformed
 
     private void btn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4ActionPerformed
-        play(2,1);
+        play(2, 1);
     }//GEN-LAST:event_btn4ActionPerformed
 
     private void btn5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn5ActionPerformed
-        play(2,2);
+        play(2, 2);
     }//GEN-LAST:event_btn5ActionPerformed
 
     private void btn6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6ActionPerformed
-        play(2,3);
+        play(2, 3);
     }//GEN-LAST:event_btn6ActionPerformed
 
     private void btn7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7ActionPerformed
-        play(3,1);
+        play(3, 1);
     }//GEN-LAST:event_btn7ActionPerformed
 
     private void btn8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn8ActionPerformed
-        play(3,2);
+        play(3, 2);
     }//GEN-LAST:event_btn8ActionPerformed
 
     private void btn9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn9ActionPerformed
-        play(3,3);
+        play(3, 3);
     }//GEN-LAST:event_btn9ActionPerformed
 
     private void btnNewGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewGameActionPerformed
@@ -492,48 +502,27 @@ public class XOFrame extends javax.swing.JFrame {
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         System.exit(0);
     }//GEN-LAST:event_btnCloseActionPerformed
-    private void showturn(){
-        if(board.getCurrentPlayer() != null){
-            lblStatus.setText("Turn "+board.getCurrentPlayer().getName());
+    private void showturn() {
+        if (board.getCurrentPlayer() != null) {
+            lblStatus.setText("Turn " + board.getCurrentPlayer().getName());
         }
     }
-    private void showBoard(){
-        char [][]table = board.getTable();
-        btn1.setText(""+table[0][0]);
-        btn2.setText(""+table[0][1]);
-        btn3.setText(""+table[0][2]);
-        btn4.setText(""+table[1][0]);
-        btn5.setText(""+table[1][1]);
-        btn6.setText(""+table[1][2]);
-        btn7.setText(""+table[2][0]); 
-        btn8.setText(""+table[2][1]);
-        btn9.setText(""+table[2][2]);
+
+    private void showBoard() {
+        char[][] table = board.getTable();
+        btn1.setText("" + table[0][0]);
+        btn2.setText("" + table[0][1]);
+        btn3.setText("" + table[0][2]);
+        btn4.setText("" + table[1][0]);
+        btn5.setText("" + table[1][1]);
+        btn6.setText("" + table[1][2]);
+        btn7.setText("" + table[2][0]);
+        btn8.setText("" + table[2][1]);
+        btn9.setText("" + table[2][2]);
     }
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new XOFrame().setVisible(true));
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PN;
     private javax.swing.JButton btn1;
@@ -580,7 +569,8 @@ public class XOFrame extends javax.swing.JFrame {
         btn8.setEnabled(b);
         btn9.setEnabled(b);
     }
-    void load(){
+
+    void load() {
         FileInputStream fis = null;
         File file = new File("player.dat");
         try {
@@ -597,7 +587,7 @@ public class XOFrame extends javax.swing.JFrame {
         } catch (FileNotFoundException ex) {
             System.out.println("File not found!!! ");
         } catch (IOException ex) {
-            System.getLogger(TestReadFriend.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            System.getLogger(XOFrame.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         } catch (ClassNotFoundException ex) {
             System.out.println("Can not read class!!!");
         } catch (ClassCastException ex) {
@@ -608,11 +598,43 @@ public class XOFrame extends javax.swing.JFrame {
                     fis.close();
                 }
             } catch (IOException ex) {
-                System.getLogger(TestReadFriend.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                System.getLogger(XOFrame.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             }
         }
     }
-    void save(){
-        
+
+    void save() {
+        FileOutputStream fos = null;
+        try {
+            File file = new File("player.dat");
+            fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(playerO);
+            oos.writeObject(playerX);
+            oos.close();
+            fos.close();
+
+        } catch (FileNotFoundException ex) {
+            System.getLogger(XOFrame.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        } catch (IOException ex) {
+            System.getLogger(XOFrame.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        } finally {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+                fos.close();
+            } catch (IOException ex) {
+                System.getLogger(XOFrame.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new XOFrame().setVisible(true);
+            }
+        });
     }
 }
