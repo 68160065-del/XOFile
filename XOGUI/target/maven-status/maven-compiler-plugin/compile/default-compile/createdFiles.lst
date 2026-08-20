@@ -1,5 +1,7 @@
 com\mycompany\xogui\HelloFrame.class
+com\mycompany\friend\Friend.class
 com\mycompany\xogui\Player.class
 com\mycompany\xogui\Board.class
-com\mycompany\xogui\XOGUI.class
+com\mycompany\friend\TestFriend.class
 com\mycompany\xogui\XOFrame.class
+com\mycompany\xogui\XOGUI.class
