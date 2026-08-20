@@ -4,11 +4,13 @@
  */
 package com.mycompany.xogui;
 
+import java.io.Serializable;
+
 /**
  *
  * @author admin
  */
-public class Player {
+public class Player implements Serializable{
     private char name;
     private int win;
     private int lose;

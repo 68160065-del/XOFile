@@ -4,6 +4,14 @@
  */
 package com.mycompany.xogui;
 
+import com.mycompany.friend.Friend;
+import com.mycompany.friend.TestReadFriend;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 /**
  *
  * @author admin
@@ -20,7 +28,9 @@ public class XOFrame extends javax.swing.JFrame {
         this.board = new Board(playerO, playerX); 
         showBoard();
         showturn();
+        load();
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -569,5 +579,40 @@ public class XOFrame extends javax.swing.JFrame {
         btn7.setEnabled(b);
         btn8.setEnabled(b);
         btn9.setEnabled(b);
+    }
+    void load(){
+        FileInputStream fis = null;
+        File file = new File("player.dat");
+        try {
+            fis = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            Player p1 = (Player) ois.readObject();
+            Player p2 = (Player) ois.readObject();
+            System.out.println(p1);
+            System.out.println(p2);
+            this.playerO = p1;
+            this.playerX = p2;
+            ois.close();
+            fis.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println("File not found!!! ");
+        } catch (IOException ex) {
+            System.getLogger(TestReadFriend.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Can not read class!!!");
+        } catch (ClassCastException ex) {
+            System.out.println("Can not read class!!!");
+        } finally {
+            try {
+                if (fis != null) {
+                    fis.close();
+                }
+            } catch (IOException ex) {
+                System.getLogger(TestReadFriend.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        }
+    }
+    void save(){
+        
     }
 }
